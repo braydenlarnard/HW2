@@ -1,6 +1,6 @@
 
 /*
- * *** PLACE YOUR NAME / SECTION HERE ***
+ * *** Brayden Larnard / 272-002 ***
  *
  * Homework # 2 (Programming Assignment). This Java class defines a few basic
  * manipulation operations of a binary trees.
@@ -213,7 +213,7 @@ public class BinaryTree {
      *
      * This method will traverse the tree using a depth first search
      * approach, and for each node found with the value of 'oldVal',
-     * replace it (update teh value in place), with the provided 'newVal'.
+     * replace it (update the value in place), with the provided 'newVal'.
      *
      * Depth first search of the tree is based on recursion. This will result
      * in very few lines of code.
@@ -224,6 +224,21 @@ public class BinaryTree {
 
         // ADD YOUR CODE HERE -- USE DEPTH FIRST SEARCH OF
         // BINARY TREE (WHICH IS BASED ON RECURSION)
+
+        // Exception case: node is null
+        if (node == null) {
+            return;
+        }
+
+        // Base case: if the current node contains the old value, change it to the new value
+        if (node.data == oldVal) {
+            node.data = newVal;
+        }
+
+        // Recursive cases: traverse the left and right nodes
+        replaceValueHelper(node.left, oldVal, newVal);
+        replaceValueHelper(node.right, oldVal, newVal);
+
 
     }
 
@@ -247,7 +262,23 @@ public class BinaryTree {
         // ADD YOUR CODE HERE -- USE DEPTH FIRST SEARCH OF
         // BINARY TREE (WHICH IS BASED ON RECURSION)
 
-        return Integer.MAX_VALUE;
+        // Exception case: node is null
+        if (node == null) {
+            return Integer.MAX_VALUE;
+        }
+
+        // Recursive Cases: find the minimum between the two trees
+        int min = findMinHelper(node.left);
+        min = Math.min(min, findMinHelper(node.right));
+
+        // Find if current node is minimum
+        if (node.data < min) {
+            min = node.data;
+        }
+
+        // Return the minimum
+        return min;
+
     }
 
 
@@ -269,10 +300,25 @@ public class BinaryTree {
         // ADD YOUR CODE HERE -- USE DEPTH FIRST SEARCH OF
         // BINARY TREE (WHICH IS BASED ON RECURSION)
 
-        // RETURNING -1 IN THIS STUB, WHICH WILL FAIL ALL TESTS. REPLACE IT WITH YOUR CODE
+        // Initialize count variable to keep track of GT values
+        int count = 0;
 
+        // Edge case: the root is null
+        if (node == null) {
+            return count;
+        }
 
-        return -1;
+        // Recursive cases: recursively go down the tree and add counts from each subtree
+        count += nodesGTHelper(node.left, val);
+        count += nodesGTHelper(node.right, val);
+
+        // Base case: current node is GT than value
+        if (node.data > val) {
+            return count+1;
+        }
+
+        // Return the total count of nodes GT than given values
+        return count;
     }
 
 
@@ -311,6 +357,20 @@ public class BinaryTree {
         // COUNT LOCATIONS IN THE RETURNED ARRAY AS SHOWN BELOW, ELSE
         // THE 'SUM' IS RETURNED IN INDEX LOCATION 0, AND COUNT IS LOCATION 1
 
-        return new int[]{0, 0};
+        // Initialize variable for the sum and the count
+        int[] sumAndCount = {0, 0};
+
+        // Edge case: the tree is empty
+        if (n == null) {
+            return sumAndCount;
+        }
+
+        // Recursively go down the tree, adding the value of the node to sum and the number of the node to count
+        // Also add the current node's data to the sum and count
+        sumAndCount[0] += averageHelper(n.left)[0] + averageHelper(n.right)[0] + n.data; // Sum (n.data stands for current node's data)
+        sumAndCount[1] += averageHelper(n.left)[1] + averageHelper(n.right)[1] + 1; // Count (1 stands for counting the current node)
+
+
+        return sumAndCount;
     }
 }
